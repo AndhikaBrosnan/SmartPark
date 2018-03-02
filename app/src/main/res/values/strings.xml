@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Pas!</string>
+    <string name="info_scanner">Scan QRcode yg tertera pada karcis parkir.</string>
+    <string name="web_client_id">392665360339-637qrr53ac4aa2chqi0uq7jo97qhf31s.apps.googleusercontent.com</string>
+    <string name="loading">Loading . . .</string>
+    <string name="title_activity_nav_drawer">Scan dan Bayar</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="titleText">Selamat Datang di aplikasi Pas! \n Aplikasi yang mempermudah dan mempercepat proses parkir</string>
+</resources>

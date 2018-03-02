@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "392665360339",
+    "firebase_url": "https://smartpark-alif.firebaseio.com",
+    "project_id": "smartpark-alif",
+    "storage_bucket": "smartpark-alif.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392665360339:android:923e4e6608f39cd8",
+        "android_client_info": {
+          "package_name": "alif.parking.qrscanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392665360339-0ts3lr4cpvbo3ns94tsouma9mime7tst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "alif.parking.qrscanner",
+            "certificate_hash": "9f6da11bf5903a3689a3f8ed18fd53ae1996db20"
+          }
+        },
+        {
+          "client_id": "392665360339-637qrr53ac4aa2chqi0uq7jo97qhf31s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBslFioKh4w1Pyg3hdaxT23kcmX4DcMNQM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392665360339-637qrr53ac4aa2chqi0uq7jo97qhf31s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
