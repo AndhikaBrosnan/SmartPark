@@ -42,7 +42,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 mFirebaseUser = firebaseAuth.getCurrentUser();
                 if (mFirebaseUser != null) {
-                    startActivity(new Intent(getApplicationContext(), NavDrawerActivity.class));
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
                     if (mFirebaseUser != null) {
                         if (BuildConfig.DEBUG)
@@ -119,7 +119,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                             }
 
                             Users user = new Users(
-                                    account.getDisplayName() + " " + account.getFamilyName(),
+                                    account.getDisplayName(),
                                     account.getEmail(),
                                     photoUrl,
                                     FirebaseAuth.getInstance().getCurrentUser().getUid()
@@ -132,7 +132,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                         @Override
                                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                                             Log.v(TAG, "onComplete Set vaLUE");
-                                            startActivity(new Intent(RegisterActivity.this, NavDrawerActivity.class));
+                                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                                         }
                                     });
                             if (BuildConfig.DEBUG) Log.v(TAG, "Authentification successful");
