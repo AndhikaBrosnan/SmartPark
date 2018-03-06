@@ -12,7 +12,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +30,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import alif.parking.qrscanner.models.Users;
 import alif.parking.qrscanner.utils.Constants;
@@ -51,11 +54,14 @@ public class MainActivity extends BaseActivity
 
     int pressCounter = 0;
 
-    int price = 3000;
+    int price= 0;
 
     int secs = 0;
     int mins = 0;
     int hours = 0;
+
+    private Calendar calendar;
+    private Date date;
 
     Runnable updateTimerThread = new Runnable() {
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
@@ -69,15 +75,29 @@ public class MainActivity extends BaseActivity
 
             secs%=60;
             int milliseconds = (int)(updateTime%1000);
-            tv_timer.setText(String.format("%2d",hours)+":"+String.format("%2d",mins)+":"+String.format("%2d",secs)+":"
-                    +String.format("%3d",milliseconds));
-            if (secs % 30 == 0){ // TODO: BUG ISSUE: kayaknya Problem bugnya disini. Waktu di reset secsnya 0 tapi artinya hasil bagi 0 tetep 0 berarti price nambah dari price sebelumnya
-                price++;
-                tv_biaya.setText("Rp. "+price+",00");
+            tv_timer.setText(String.format("%2d",hours)+":"+String.format("%2d",mins)+":"+String.format("%2d",secs)+":"+String.format("%3d",milliseconds));
+
+            handler.postDelayed(this,0);
+        }
+    };
+
+    Runnable updatePriceThread = new Runnable() {
+        @Override
+        public void run() {
+            if (secs % 10 == 0){ // TODO: BUG ISSUE: kayaknya Problem bugnya disini. Waktu di reset secsnya 0 tapi artinya hasil bagi 0 tetep 0 berarti price nambah dari price sebelumnya
+                if(secs>0 && secs<=20){
+                    price = 0;
+
+                }else {
+                    price = price+1;
+                    tv_biaya.setText("Rp. "+price+",00");
+                }
+
             }
             handler.postDelayed(this,0);
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +105,9 @@ public class MainActivity extends BaseActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        calendar = Calendar.getInstance(TimeZone.getDefault());
+        date = calendar.getTime();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -153,6 +176,7 @@ public class MainActivity extends BaseActivity
                     onParkir();
 
                     handler.postDelayed(updateTimerThread,0);
+                    handler.postDelayed(updatePriceThread,0);
                 }
             }
         });
@@ -160,8 +184,7 @@ public class MainActivity extends BaseActivity
     }
 
     public void onBayar(){
-        //stop calculating the price and the time
-        handler.postDelayed(updateTimerThread,0);
+
         scanresult.setText("Silahkan bayar biaya parkir sejumlah "+tv_biaya.getText() + " di kasir.");
         scanbutt.setText("SCAN");
 
@@ -173,11 +196,11 @@ public class MainActivity extends BaseActivity
         secs = 0;
         mins = 0;
         hours = 0;
-
-        timeinMilliseconds = 0;
-        timeSwapBuff = 0;
-        updateTime = 0;
-        price = 3000;
+        startTime = 0L;
+        timeinMilliseconds = 0L;
+        timeSwapBuff = 0L;
+        updateTime = 0L;
+        price = 0;
 
         scanbutt.setText("BAYAR");
         //timernya
@@ -201,7 +224,7 @@ public class MainActivity extends BaseActivity
             }
             else {
                 scanresult.setVisibility(View.VISIBLE);
-                scanresult.setText(result.getContents());
+                scanresult.setText(date + " \n "+result.getContents());
                 CODE_CANCEL = 0;
             }
         }
@@ -219,7 +242,7 @@ public class MainActivity extends BaseActivity
                 .setResultCallback(new ResultCallback<Status>() {
                     @Override
                     public void onResult(@NonNull Status status) {
-
+                        Toast.makeText(MainActivity.this, "Anda telah logout", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -279,15 +302,7 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
+        if (id == R.id.nav_profile) {
             Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {

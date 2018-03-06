@@ -29,6 +29,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         platnumb = (EditText)findViewById(R.id.et_platnumb);
         saveprofile = (Button)findViewById(R.id.b_saveprofile);
 
