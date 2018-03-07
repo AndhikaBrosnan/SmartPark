@@ -9,12 +9,17 @@ public class Users {
     private String email;
     private String photUrl;
     private String Uid;
+    private String platNumb;
 
     public Users() {
     }
 
-    public Users(String user) {
+    public Users(String user, String email, String photUrl, String uid, String platNumb) {
         this.user = user;
+        this.email = email;
+        this.photUrl = photUrl;
+        Uid = uid;
+        this.platNumb = platNumb;
     }
 
     public Users(String user, String email, String photUrl, String uid) {
@@ -22,6 +27,14 @@ public class Users {
         this.email = email;
         this.photUrl = photUrl;
         Uid = uid;
+    }
+
+    public void setPlatNumb(String platNumb) {
+        this.platNumb = platNumb;
+    }
+
+    public String getPlatNumb() {
+        return platNumb;
     }
 
     public String getUser() {
