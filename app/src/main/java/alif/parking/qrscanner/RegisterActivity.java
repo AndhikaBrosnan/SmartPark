@@ -122,7 +122,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                     account.getDisplayName(),
                                     account.getEmail(),
                                     photoUrl,
-                                    FirebaseAuth.getInstance().getCurrentUser().getUid()
+                                    FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                    null
                             );
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance();

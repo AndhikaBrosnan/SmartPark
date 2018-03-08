@@ -97,6 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String namauser = userName.getText().toString();
                 mRef.child("user").setValue(namauser);
                 mPlatRef.setValue(plat_numb);
+                userPojo.setPlatNumb(plat_numb);
                 Toast.makeText(ProfileActivity.this, "Data telah tersimpan", Toast.LENGTH_SHORT).show();
             }
         });

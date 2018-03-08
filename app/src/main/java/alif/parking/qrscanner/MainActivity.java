@@ -12,6 +12,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -57,11 +60,13 @@ public class MainActivity extends BaseActivity
     int price= 0;
 
     int secs = 0;
+    int priceTrigg = 0;
     int mins = 0;
     int hours = 0;
 
     private Calendar calendar;
     private Date date;
+    private DateFormat df;
 
     Runnable updateTimerThread = new Runnable() {
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
@@ -70,6 +75,7 @@ public class MainActivity extends BaseActivity
             timeinMilliseconds = SystemClock.uptimeMillis() - startTime;
             updateTime = timeSwapBuff+timeinMilliseconds;
             secs = (int)(updateTime/1000);
+            priceTrigg = (int)(updateTime/1000);
             mins = secs/60;
             hours = mins/60;
 
@@ -84,19 +90,14 @@ public class MainActivity extends BaseActivity
     Runnable updatePriceThread = new Runnable() {
         @Override
         public void run() {
-            if (secs % 10 == 0){ // TODO: BUG ISSUE: kayaknya Problem bugnya disini. Waktu di reset secsnya 0 tapi artinya hasil bagi 0 tetep 0 berarti price nambah dari price sebelumnya
-                if(secs>0 && secs<=20){
-                    price = 0;
-
-                }else {
-                    price = price+1;
-                    tv_biaya.setText("Rp. "+price+",00");
-                }
-
+            if (priceTrigg % 120 == 0){ // Price trigger berdasarkan detik.
+                price++;
+                tv_biaya.setText("Rp. "+price+",00");
             }
             handler.postDelayed(this,0);
         }
     };
+    private String currentDateFormat;
 
 
     @Override
@@ -108,6 +109,10 @@ public class MainActivity extends BaseActivity
 
         calendar = Calendar.getInstance(TimeZone.getDefault());
         date = calendar.getTime();
+        df = new SimpleDateFormat("EEEE, d MMMM yyyy HH:mm:ss");
+
+        currentDateFormat = df.format(date);
+        Log.d("DATE FORMAT: ", currentDateFormat);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -224,7 +229,7 @@ public class MainActivity extends BaseActivity
             }
             else {
                 scanresult.setVisibility(View.VISIBLE);
-                scanresult.setText(date + " \n "+result.getContents());
+                scanresult.setText("Halo "+mFirebaseUser.getDisplayName()+", anda parkir pada tanggal: "+ currentDateFormat + " \n\n "+result.getContents()); //ambil get yang perlu dari gate
                 CODE_CANCEL = 0;
             }
         }
@@ -268,7 +273,7 @@ public class MainActivity extends BaseActivity
                     doubleBackToExitPressedOnce = false;
 
                     finish();
-                    System.exit(1);
+                    System.exit(0);
                 }
             }, 2000);
         }
