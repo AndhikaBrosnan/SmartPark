@@ -62,6 +62,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    public void onBackPressed() {
+        finish();
+        System.exit(0);
+
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         if (mAuthListener != null) mAuth.removeAuthStateListener(mAuthListener);

@@ -42,8 +42,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:padding="25dp"
-        android:text="Hasil Scan"
-
+        android:text="@string/hasil_scan"
+        android:fontFamily="monospace"
         android:textSize="18dp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/tv_info_waktu"
